@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>发post</title>
+<title>注册</title>
 <style>
 .error {color: #FF0000;}
 </style>
@@ -58,6 +58,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
             //$passErr = "别注了"; 
         }
     }
+    //如果输入的用户名密码没问题，对密码进行hash加密
+    $pass=password_hash($pass,PASSWORD_DEFAULT);
     //查询用户名是否存在
     $query = "SELECT * from info where name='".$name."'";
 
@@ -68,7 +70,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
     }
     //确定对name和pass审查结束后插入数据库
     $insert = "INSERT INTO info ".
-        "(name,pass_md5) ".
+        "(name,pass) ".
         "VALUES ".
         "('$name','$pass')";
     
@@ -78,8 +80,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
     {
       die('注册失败 ' . mysqli_error($conn));
     }
-    die("注册成功\n");
     mysqli_close($conn); 
+    die("<h1>注册成功<br></h1>"."用户名为:".$name);
 }
 
 function test_input($data)
@@ -91,7 +93,7 @@ function test_input($data)
 }
 ?>
 
-<h2>PHP 注册验证实例</h2>
+<h2>注册</h2>
 <p><span class="error">* 必需字段。</span></p>
 <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>"> 
    名字: <input type="text" name="name" value="<?php echo $name;?>">
