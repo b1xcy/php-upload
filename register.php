@@ -1,4 +1,106 @@
+<!DOCTYPE HTML> 
+<html>
+<head>
+<meta charset="utf-8">
+<title>发post</title>
+<style>
+.error {color: #FF0000;}
+</style>
+</head>
+<body> 
+
 <?php
-$a = 'hello world';
-echo $a;
+// 定义变量并默认设置为空值
+$nameErr = $passErr = "";
+$name = $pass = "";
+
+//设置数据库
+$dbhost = 'localhost';  // mysql服务器主机地址
+$dbuser = 'root';            // mysql用户名
+$dbpass = '20031117';          // mysql用户名密码
+$dbname = 'user';   //mysql数据库
+$conn = mysqli_connect($dbhost, $dbuser, $dbpass);
+if(! $conn )
+{
+  die('连接失败: ' . mysqli_error($conn));
+}
+// 设置编码，防止中文乱码
+mysqli_query($conn , "set names utf8");
+
+if ($_SERVER["REQUEST_METHOD"] == "POST")
+{
+    if (empty($_POST["name"]))
+    {
+        $nameErr = "输入名字以注册";
+    }
+    else
+    {
+        $name = test_input($_POST["name"]);
+        // 检测名字是否只包含字母跟空格
+        if (!preg_match("/^[a-zA-Z_]*$/",$name))
+        {
+            die("别注了");
+            //$nameErr = "仅允许字母下划线,别注入了"; 
+        }
+        
+    }
+    
+    if (empty($_POST["pass"]))
+    {
+      $passErr = "输入密码以注册";
+    }
+    else
+    {
+        $pass = test_input($_POST["pass"]);
+        if (!preg_match("/^[a-zA-Z_.?]*$/",$pass))
+        {
+            die("别注了");
+            //$passErr = "别注了"; 
+        }
+    }
+    //查询用户名是否存在
+    $query = "SELECT * from info where name='".$name."'";
+
+    mysqli_select_db( $conn, $dbname );
+    $result = mysqli_query($conn, $query);
+    if (mysqli_num_rows($result) > 0) {
+        die("用户已存在");
+    }
+    //确定对name和pass审查结束后插入数据库
+    $insert = "INSERT INTO info ".
+        "(name,pass_md5) ".
+        "VALUES ".
+        "('$name','$pass')";
+    
+    mysqli_select_db( $conn, $dbname );
+    $retval = mysqli_query( $conn, $insert );
+    if(! $retval )
+    {
+      die('注册失败 ' . mysqli_error($conn));
+    }
+    die("注册成功\n");
+    mysqli_close($conn); 
+}
+
+function test_input($data)
+{
+    $data = trim($data);
+    $data = stripslashes($data);
+    $data = htmlspecialchars($data);
+    return $data;
+}
 ?>
+
+<h2>PHP 注册验证实例</h2>
+<p><span class="error">* 必需字段。</span></p>
+<form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>"> 
+   名字: <input type="text" name="name" value="<?php echo $name;?>">
+   <span class="error">* <?php echo $nameErr;?></span>
+   <br><br>
+   密码: <input type="text" name="pass" value="<?php echo $pass;?>">
+   <span class="error">* <?php echo $passErr;?></span>
+   <br><br>
+   <input type="submit" name="submit" value="提交"> 
+</form>
+</body>
+</html>

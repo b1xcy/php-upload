@@ -27,7 +27,7 @@ class DirectoryListing {
 	*/
 
 	// The top level directory where this script is located, or alternatively one of it's sub-directories
-	public $startDirectory = '.';
+	public $startDirectory = 'upload';
 
 	// An optional title to show in the address bar and at the top of your page (set to null to leave blank)
 	public $pageTitle = 'Evoluted Directory Listing'; //Evoluted Directory Listing Script
