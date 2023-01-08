@@ -19,7 +19,7 @@ $dbhost = 'localhost';  // mysql服务器主机地址
 $dbuser = 'root';            // mysql用户名
 $dbpass = '20031117';          // mysql用户名密码
 $dbname = 'user';   //mysql数据库
-$conn = mysqli_connect($dbhost, $dbuser, $dbpass);
+$conn = mysqli_connect($dbhost, $dbuser, $dbpass, $dbname);
 if(! $conn )
 {
   die('连接失败: ' . mysqli_error($conn));
@@ -31,7 +31,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 {
     if (empty($_POST["name"]))
     {
-        $nameErr = "输入名字以注册";
+        $nameErr = "输入名字以登陆";
     }
     else
     {
@@ -39,7 +39,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
         // 检测名字是否只包含字母跟空格
         if (!preg_match("/^[a-zA-Z_]*$/",$name))
         {
-            die("别注了");
+            echo ("<script>alert('别注了');</script>");
+            die();
             //$nameErr = "仅允许字母下划线,别注入了"; 
         }
         
@@ -47,14 +48,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
     
     if (empty($_POST["pass"]))
     {
-      $passErr = "输入密码以注册";
+      $passErr = "输入密码以登陆";
     }
     else
     {
         $pass = test_input($_POST["pass"]);
         if (!preg_match("/^[a-zA-Z_.?]*$/",$pass))
         {
-            die("别注了");
+            echo ("<script>alert('别注了');</script>");
+            die();
             //$passErr = "别注了"; 
         }
     }
@@ -63,7 +65,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
     //查询用户名是否存在
     $query = "SELECT * from info where name='".$name."'";
 
-    mysqli_select_db( $conn, $dbname );
     $result = mysqli_query($conn, $query);
     if (mysqli_num_rows($result) > 0) {
         die("用户已存在");
@@ -74,7 +75,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
         "VALUES ".
         "('$name','$pass')";
     
-    mysqli_select_db( $conn, $dbname );
     $retval = mysqli_query( $conn, $insert );
     if(! $retval )
     {
@@ -99,7 +99,7 @@ function test_input($data)
    名字: <input type="text" name="name" value="<?php echo $name;?>">
    <span class="error">* <?php echo $nameErr;?></span>
    <br><br>
-   密码: <input type="text" name="pass" value="<?php echo $pass;?>">
+   密码: <input type="password" name="pass" value="<?php echo $pass;?>">
    <span class="error">* <?php echo $passErr;?></span>
    <br><br>
    <input type="submit" name="submit" value="提交"> 
