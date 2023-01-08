@@ -1,12 +1,14 @@
 <?php
 session_start();
-if (isset($_SESSION['islogin']) && $_SESSION['islogin']===1) {
+if (isset($_SESSION['islogin']) && $_SESSION['islogin']!=null) {
     echo ("<script>alert('你已登陆');</script>");
     echo '<script>window.location.href="index.php"</script>';
     die();
 }
 // 定义变量并默认设置为空值
 $name = $pass = $pass_hash = "";
+$savePath = './session_save_dir/';
+session_save_path($savePath);
 $_SESSION['islogin']=null;
 //设置数据库
 $dbhost = 'localhost';  // mysql服务器主机地址
@@ -61,7 +63,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
         $pass_hash = mysqli_fetch_assoc($result)['pass'];
         if (password_verify($pass,$pass_hash)) {
             echo("<script>alert('登陆成功');</script>");
-            $_SESSION['islogin']=1;
+            $_SESSION['islogin']=$name;
             echo '<script>window.location.href="index.php"</script>';
             die();
         }

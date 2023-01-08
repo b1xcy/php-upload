@@ -1,6 +1,6 @@
 <?php
 session_start();
-if ($_SESSION['islogin']!=1 || !isset($_SESSION['islogin'])) {
+if ($_SESSION['islogin']===null || !isset($_SESSION['islogin'])) {
     echo("<script>alert('未登陆');</script>");
     echo '<script>window.location.href="login.php"</script>';
 }
@@ -49,7 +49,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
                 $result_change = mysqli_query($conn, $change);
                 echo("<script>alert('密码修改成功');</script>");
                 $_SESSION['islogin']=null;
-                echo '<script>window.location.href="index.php"</script>';
+                echo '<script>window.location.href="login.php"</script>';
             }
             else {
                 echo("<script>alert('原密码错误');</script>");
