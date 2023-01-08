@@ -1,4 +1,8 @@
 <?php
+
+$savePath = './session_save_dir/';
+session_save_path($savePath);
+
 session_start();
 if ($_SESSION['islogin']===null || !isset($_SESSION['islogin'])) {
     echo("<script>alert('未登陆');</script>");
@@ -78,7 +82,7 @@ function test_input($data)
         <body>
             <h1>修改密码</h1>
             <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>"> 
-                名字: <input type="text" name="name" value="<?php echo $name;?>">
+                名字: <input type="text" name="name" value="<?php echo $_SESSION['name'];?>">
                 原密码: <input type="password" name="pass" value="<?php echo $pass;?>">
                 新密码: <input type="password" name="pass_new" value="<?php echo $pass_new;?>">
                 <input type="submit" name="submit" value="提交">
