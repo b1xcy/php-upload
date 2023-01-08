@@ -62,14 +62,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
         if (password_verify($pass,$pass_hash)) {
             echo("<script>alert('登陆成功');</script>");
             $_SESSION['islogin']=1;
+            echo '<script>window.location.href="index.php"</script>';
+            die();
         }
         else {
             echo("<script>alert('密码错误');</script>");
+            echo '<script>window.location.href="login.php"</script>';
         }
     }else {
         echo("<script>alert('用户名错误');</script>");
+        echo '<script>window.location.href="login.php"</script>';
     }
 }
+mysqli_close($conn); 
 
 function test_input($data)
 {

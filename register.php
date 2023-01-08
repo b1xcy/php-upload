@@ -69,11 +69,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
     if (mysqli_num_rows($result) > 0) {
         die("用户已存在");
     }
-    //确定对name和pass审查结束后插入数据库
-    $insert = "INSERT INTO info ".
-        "(name,pass) ".
-        "VALUES ".
-        "('$name','$pass')";
+    //确定对name和加密后的pass审查结束后插入数据库
+    $insert = "INSERT INTO info "."(name,pass) "."VALUES "."('$name','$pass')";
     
     $retval = mysqli_query( $conn, $insert );
     if(! $retval )
