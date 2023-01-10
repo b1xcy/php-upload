@@ -7,12 +7,8 @@ if (!isset($_SESSION['islogin']) || $_SESSION['islogin']!==1) {
     echo '<script>window.location.href="login.php"</script>';
     die();
 }
-echo($_POST['name']);
-// if ($_POST['name']!=$_SESSION['name']) {
-//     echo ("<script>alert('用户信息错误');</script>");
-//     die();
-// }
-// if ($_SERVER["REQUEST_METHOD"] == "POST"){
-//     echo("name=".$_POST['name']);
-// }
+if ($_SERVER["REQUEST_METHOD"] == "POST"){
+    echo($_POST['filename']);
+}
+
 ?>

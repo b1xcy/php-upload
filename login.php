@@ -4,10 +4,11 @@ $name = $pass = $pass_hash = "";
 $savePath = './session_save_dir/';
 
 session_save_path($savePath);
+
 session_start();
 if (isset($_SESSION['islogin']) && $_SESSION['islogin']===1) {
     echo ("<script>alert('你已登陆');</script>");
-    echo '<script>window.location.href="index.php"</script>';
+    echo ('<script>window.location.href="index.php"</script>');
     die();
 }
 $_SESSION['islogin']=null;
@@ -99,5 +100,7 @@ function test_input($data)
    密码: <input type="password" name="pass" value="<?php echo $pass;?>">
    <input type="submit" name="submit" value="提交"> 
 </form>
+<div style="text-align:center">
+<input type="button" value="注册" onclick="location.href='register.php'"></div>
 </body>
 </html>
