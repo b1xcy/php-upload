@@ -8,29 +8,52 @@ if (!isset($_SESSION['islogin']) || $_SESSION['islogin']!==1) {
     die();
 }
 $name=$_SESSION['name'];
-$dir='./upload/'.$name;
-if (!is_dir($dir)) {
-    mkdir ( $dir, '0777' );
+
+//判断管理员权限
+if ($name=='admin') {
+    $dir='./upload/';
+    if (!is_dir('./upload/admin')) {
+        mkdir ( './upload/admin', '0777' );
+    }
+    echo '<div style="text-align:center">当前为管理员账户登陆</div>';
+    echo '<form method="post" action="manage.php"><div style="text-align:center"><input type="submit" name="delect" value="用户管理"></div></form>';
+
+}else {
+    $dir='./upload/'.$name;
+    if (!is_dir($dir)) {
+        mkdir ( $dir, '0777' );
+    }
 }
 $filename = scandir($dir);
 ?>
-<form method="post" action="download.php">
 <table border = 1>
 <?php
-foreach($filename as $k=>$v){
-    // 跳过两个特殊目录   continue跳出循环
-    if($v=="." || $v==".."){
-        continue;
-    }
-    echo('<form method="post" action="download.php">');
-    echo('<tr>');
-    echo('<th><input type="submit" name="download" value="下载"></th>');
-    echo("<input type='hidden' name='filename' value='$v'><input type='hidden' name='name' value='$name'></form>");
-    echo('<th>'.$v.'</th>');
-    echo('<form method="post" action="delect.php">');
-    echo('<th><input type="submit" name="delect" value="删除"></th></tr>');
-    echo("<input type='hidden' name='filename' value='$v'><input type='hidden' name='name' value='$name'></form>");
+function fileShow($dir,$name){                           //遍历目录下的所有文件和文件夹
+    $handle = opendir($dir);
+    while($file = readdir($handle)){
+         if($file !== '..' && $file !== '.'){
+             $f = $dir.'/'.$file;
+         if(is_file($f)){
+                     //echo '|--'.$file.'<br>';          //代表文件
+                     echo('<form method="post" action="download.php">');
+                     echo('<tr>');
+                     echo('<th><input type="submit" name="download" value="下载"></th>');
+                     echo("<input type='hidden' name='filename' value='$file'><input type='hidden' name='name' value='$name'></form>");
+                     echo('<th>'.$file.'</th>');
+                     echo('<form method="post" action="delect.php">');
+                     echo('<th><input type="submit" name="delect" value="删除"></th></tr>');
+                     echo("<input type='hidden' name='filename' value='$file'><input type='hidden' name='name' value='$name'></form>");
+                 }else{
+                 //echo  '--'.$file.'<br>';          //代表文件夹
+                 echo('<tr>');
+                 echo('<th>--用户'.$file.'的文件↓</th>');
+                 fileShow($f,$name);
+             }
+                 }
+     }
 }
+
+fileShow("$dir",$name);
 ?>
 </table></form>
 <form method="post" action="upload.php" enctype="multipart/form-data">

@@ -21,7 +21,7 @@ $dbname = 'user';   //mysql数据库
 $conn = mysqli_connect($dbhost, $dbuser, $dbpass, $dbname);
 if(! $conn )
 {
-  die('连接失败: ' . mysqli_error($conn));
+  die('数据库连接失败: ' . mysqli_error($conn));
 }
 // 设置编码，防止中文乱码
 mysqli_query($conn , "set names utf8");
@@ -97,7 +97,7 @@ function test_input($data)
 }
 ?>
 
-<h2>注册</h2>
+<h1>注册</h1>
 <p><span class="error">* 必需字段。</span></p>
 <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>"> 
    名字: <input type="text" name="name" value="<?php echo $name;?>">

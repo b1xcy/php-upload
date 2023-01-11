@@ -4,6 +4,7 @@ $savePath = './session_save_dir/';
 session_save_path($savePath);
 
 session_start();
+
 if ($_SESSION['islogin']===null || !isset($_SESSION['islogin'])) {
     echo("<script>alert('未登陆');</script>");
     echo '<script>window.location.href="login.php"</script>';
@@ -18,7 +19,7 @@ $dbname = 'user';   //mysql数据库
 $conn = mysqli_connect($dbhost, $dbuser, $dbpass, $dbname);
 if(! $conn )
 {
-  die('连接失败: ' . mysqli_error($conn));
+  die('数据库连接失败: ' . mysqli_error($conn));
 }
 // 设置编码，防止中文乱码
 mysqli_query($conn , "set names utf8");
