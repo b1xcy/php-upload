@@ -13,7 +13,7 @@ $name = $pass = $pass_hash = $pass_new = '';
 //设置数据库
 $dbhost = 'localhost';  // mysql服务器主机地址
 $dbuser = 'root';            // mysql用户名
-$dbpass = '20031117';          // mysql用户名密码
+$dbpass = 'root';          // mysql用户名密码
 $dbname = 'user';   //mysql数据库
 $conn = mysqli_connect($dbhost, $dbuser, $dbpass, $dbname);
 if(! $conn )
