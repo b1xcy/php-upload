@@ -6,12 +6,13 @@ session_save_path($savePath);
 session_start();
 
 $name=$_POST['name'];
-//判断用户是否正确
+//判断用户是否登陆
 if (!isset($_SESSION['islogin']) || $_SESSION['islogin']!==1) {
     echo ("<script>alert('未登陆，即将跳转到登陆界面');</script>");
     echo '<script>window.location.href="login.php"</script>';
     die();
 }
+//判断用户是否正确
 if ($name!==$_SESSION['name']) {
     echo ("<script>alert('用户信息错误');</script>");
     echo ('<script>window.location.href="index.php"</script>');

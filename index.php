@@ -29,7 +29,7 @@ foreach($filename as $k=>$v){
     echo('<th>'.$v.'</th>');
     echo('<form method="post" action="delect.php">');
     echo('<th><input type="submit" name="delect" value="删除"></th></tr>');
-    echo("<input type='hidden' name='filename' value='$v'></form>");
+    echo("<input type='hidden' name='filename' value='$v'><input type='hidden' name='name' value='$name'></form>");
 }
 ?>
 </table></form>

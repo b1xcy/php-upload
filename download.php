@@ -2,6 +2,7 @@
 $savePath = './session_save_dir/';
 session_save_path($savePath);
 session_start();
+
 if (!isset($_POST['filename']) || !isset($_POST['name'])) {
     echo ("<script>alert('请求方式有误');</script>");
     echo '<script>window.location.href="index.php"</script>';
