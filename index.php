@@ -32,10 +32,11 @@ foreach($filename as $k=>$v){
     echo("<input type='hidden' name='filename' value='$v'></form>");
 }
 ?>
-</table>
-<form method="post" action="upload.php">
+</table></form>
+<form method="post" action="upload.php" enctype="multipart/form-data">
 <div style="text-align:center">
-<input type="submit" name="upload" value="上传">
+<input type="file" name="file" id="file">
+<input type="submit" name="submit" value="上传">
 <input type='hidden' name='name' value="<?php echo $name;?>">
 </div></form>
 <br>
