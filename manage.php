@@ -50,12 +50,9 @@ $query = "SELECT name from info;";
 $result = mysqli_query($conn, $query);
 while ($row = mysqli_fetch_assoc($result)) {
     if ($row["name"]==="admin") {
-        echo('<form method="post" action="manage.php">');
         echo '<tr>';
         echo "<th>用户:".$row["name"].'(管理员)</th>';
-        echo "<input type='hidden' name='user_name' value='".$row["name"]."'>";
-        echo('<th><input type="submit" name="drop" value="删除"></th>');
-        echo '</tr></form><br>';
+        echo '</tr><br>';
     }else {
         echo('<form method="post" action="manage.php">');
         echo '<tr>';
@@ -66,4 +63,7 @@ while ($row = mysqli_fetch_assoc($result)) {
     }
 }
 ?>
+<form method="get" action="index.php">
+    <button type="submit">回到主页</button>
+</form>
 </div>

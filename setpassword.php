@@ -8,6 +8,7 @@ session_start();
 if ($_SESSION['islogin']===null || !isset($_SESSION['islogin'])) {
     echo("<script>alert('未登陆');</script>");
     echo '<script>window.location.href="login.php"</script>';
+    die();
 }
 // 定义变量并默认设置为空值
 $name = $pass = $pass_hash = $pass_new = '';
@@ -28,15 +29,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 {
     if(empty($_POST["name"]) || empty($_POST["pass"]) ||empty($_POST["pass_new"]))
     {
-        echo("请输入用户名或密码");
+        echo ("<script>alert('请输入用户名或密码');</script>");
+        echo ('<script>window.location.href="setpassword.php"</script>');
+        die();
     }
     else 
     {
         $name = test_input($_POST["name"]);
         $pass = test_input($_POST["pass"]);
         $pass_new = test_input($_POST["pass_new"]);
-        if (!preg_match("/^[a-zA-Z_]*$/",$name) || !preg_match("/^[a-zA-Z_]*$/",$pass) ||!preg_match("/^[a-zA-Z_]*$/",$pass_new)) {
+        if (!preg_match_all("/^[a-zA-Z0-9_]+$/",$name) || !preg_match_all("/^[a-zA-Z0-9_?.]+$/",$pass) ||!preg_match_all("/^[a-zA-Z0-9_?.]+$/",$pass_new)) {
             echo ("<script>alert('别注了');</script>");
+            echo ('<script>window.location.href="setpassword.php"</script>');
             die();
         }
         //将新密码加密
@@ -55,14 +59,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
                 echo("<script>alert('密码修改成功');</script>");
                 $_SESSION['islogin']=null;
                 echo '<script>window.location.href="login.php"</script>';
+                die();
             }
             else {
                 echo("<script>alert('原密码错误');</script>");
                 echo '<script>window.location.href="setpassword.php"</script>';
+                die();
             }
         }else {
             echo("<script>alert('用户名输入错误');</script>");
             echo '<script>window.location.href="setpassword.php"</script>';
+            die();
         }
     }
 }

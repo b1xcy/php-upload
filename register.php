@@ -38,9 +38,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
     {
         $name = test_input($_POST["name"]);
         // 检测名字是否只包含字母跟空格
-        if (!preg_match("/^[a-zA-Z_0-9]*$/",$name))
+        if (!preg_match_all("/^[a-zA-Z0-9_]+$/",$name))
         {
             echo ("<script>alert('别往用户名注了');</script>");
+            echo ('<script>window.location.href="register.php"</script>');
             die();
         }
         
@@ -55,7 +56,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
     else
     {
         $pass = test_input($_POST["pass"]);
-        if (!preg_match("/^[a-zA-Z_0-9]*$/",$pass))
+        if (!preg_match_all("/^[a-zA-Z0-9_?.]+$/",$pass))
         {
             echo ($pass);
             echo ("<script>alert('别注密码了');</script>");
@@ -101,7 +102,11 @@ function test_input($data)
 <p><span class="error">* 必需字段。</span></p>
 <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>"> 
    名字: <input type="text" name="name" value="<?php echo $name;?>">
+   <span class="error">*仅允许数字字母下划线输入</span>
+   <br>
    密码: <input type="password" name="pass" value="<?php echo $pass;?>">
+   <span class="error">*仅允许数字字母下划线英文问号句号输入</span>
+   <br>
    <input type="submit" name="submit" value="提交"> 
 </form>
 </body>

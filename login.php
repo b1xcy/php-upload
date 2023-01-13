@@ -35,9 +35,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
     {
         $name = test_input($_POST["name"]);
         // 检测名字是否只包含字母跟空格
-        if (!preg_match("/^[a-zA-Z_]*$/",$name))
+        if (!preg_match_all("/^[a-zA-Z0-9_]+$/",$name))
         {
             echo ("<script>alert('别注了');</script>");
+            echo ('<script>window.location.href="login.php"</script>');
             die();
             //$nameErr = "仅允许字母下划线,别注入了"; 
         }
@@ -51,9 +52,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
     else
     {
         $pass = test_input($_POST["pass"]);
-        if (!preg_match("/^[a-zA-Z_.?]*$/",$pass))
+        if (!preg_match_all("/^[a-zA-Z0-9_?.]+$/",$pass))
         {
             echo ("<script>alert('别注了');</script>");
+            echo ('<script>window.location.href="login.php"</script>');
             die();
             //$passErr = "别注了"; 
         }
@@ -73,10 +75,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
         else {
             echo("<script>alert('密码错误');</script>");
             echo '<script>window.location.href="login.php"</script>';
+            die();
         }
     }else {
         echo("<script>alert('用户名错误');</script>");
         echo '<script>window.location.href="login.php"</script>';
+        die();
     }
 }
 mysqli_close($conn); 
